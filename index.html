@@ -23,16 +23,43 @@
             position: absolute;
             top: 0;
         }
-        .menu a {
+        .menu > div {
+            position: relative;
+            display: inline-block;
+        }
+        .menu a, .menu button {
             color: pink;
             margin: 0 15px;
             text-decoration: none;
             font-size: 1.2em;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .menu-content {
+            display: none;
+            position: absolute;
+            background-color: navy;
+            min-width: 160px;
+            z-index: 1;
+        }
+        .menu-content a {
+            color: pink;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 1em;
+        }
+        .menu-content a:hover {
+            background-color: gray;
+        }
+        .menu div:hover .menu-content {
+            display: block;
         }
         .message {
             font-size: 1.5em;
             margin-bottom: 20px;
-            margin-top: 60px; /* เพิ่มระยะห่างจากเมนู */
+            margin-top: 100px; /* เพิ่มระยะห่างจากเมนู */
         }
         .page-number {
             font-size: 1.2em;
@@ -42,14 +69,24 @@
 </head>
 <body>
     <div class="menu">
-        <a href="javascript:void(0)" onclick="showPage(0)">หน้า 1</a>
-        <a href="javascript:void(0)" onclick="showPage(1)">หน้า 2</a>
-        <a href="javascript:void(0)" onclick="showPage(2)">หน้า 3</a>
-        <a href="javascript:void(0)" onclick="showPage(3)">หน้า 4</a>
+        <div>
+            <button>Hint</button>
+            <div class="menu-content">
+                <a href="javascript:void(0)" onclick="showPage(0)">คำใบ้ที่ 1</a>
+                <a href="javascript:void(0)" onclick="showPage(1)">คำใบ้ที่ 2</a>
+                <a href="javascript:void(0)" onclick="showPage(2)">คำใบ้ที่ 3</a>
+                <a href="javascript:void(0)" onclick="showPage(3)">คำใบ้ที่ 4</a>
+            </div>
+        </div>
+        <div>
+            <button>About</button>
+            <div class="menu-content">
+                <a href="javascript:void(0)" onclick="showPage(4)">อธิบายเพิ่มเติม</a>
+            </div>
+        </div>
     </div>
     <div class="message" id="message">.. .... .- ...- . / .-.. .. ...- . -.. / .. -. / - .... . / -. --- .-. - .... . .-. -. / .-. . --. .. --- -.</div>
     <div class="page-number" id="page-number">หน้า 1</div>
-    <button onclick="nextPage()">หน้าถัดไป</button>
 
     <script>
         let currentPage = 0;
@@ -57,17 +94,12 @@
             ".. .... .- ...- . / .-.. .. ...- . -.. / .. -. / - .... . / -. --- .-. - .... . .-. -. / .-. . --. .. --- -.",
             "01110011 01101001 01101110 01100011 01100101 00100000 01001001 00100000 01110111 01100001 01110011 00100000 01100001 00100000 01100011 01101000 01101001 01101100 01100100",
             ".- -. -.. / -- --- ...- . -.. / -... .- -.-. -.- / - --- / -... .- -. --. -.- --- -.-",
-            "01100001 00100000 01101100 01101001 01110100 01110100 01101100 01100101 00100000 01101111 01110110 01100101 01110010 00100000 00110010 00100000 01111001 01100101 01100001 01110010 01110011 00100000 01100001 01100111 01101111"
+            "01100001 00100000 01101100 01101001 01110100 01110100 01101100 01100101 00100000 01101111 01110110 01100101 01110010 00100000 00110010 00100000 01111001 01100101 01100001 01110010 01110011 00100000 01100001 01100111 01101111",
+            "ให้นำรหัสในทุกหน้ามาเรียงต่อกัน\nขอให้หาพี่เจอนะพี่รออยู่ อิอิ"
         ];
 
         function showPage(page) {
             currentPage = page;
-            document.getElementById('message').textContent = messages[currentPage];
-            document.getElementById('page-number').textContent = `หน้า ${currentPage + 1}`;
-        }
-
-        function nextPage() {
-            currentPage = (currentPage + 1) % messages.length;
             document.getElementById('message').textContent = messages[currentPage];
             document.getElementById('page-number').textContent = `หน้า ${currentPage + 1}`;
         }
