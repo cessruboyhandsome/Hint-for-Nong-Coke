@@ -7,13 +7,10 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
         }
+
+        /* Menu styling */
         .menu {
             width: 100%;
             background-color: navy;
@@ -23,10 +20,12 @@
             position: absolute;
             top: 0;
         }
+
         .menu > div {
             position: relative;
             display: inline-block;
         }
+
         .menu a, .menu button {
             color: pink;
             margin: 0 15px;
@@ -36,6 +35,7 @@
             border: none;
             cursor: pointer;
         }
+
         .menu-content {
             display: none;
             position: absolute;
@@ -43,6 +43,7 @@
             min-width: 160px;
             z-index: 1;
         }
+
         .menu-content a {
             color: pink;
             padding: 12px 16px;
@@ -50,35 +51,86 @@
             display: block;
             font-size: 1em;
         }
-         .menu-content a:hover {
+
+        .menu-content a:hover {
             background-color: gray;
         }
+
         .menu div:hover .menu-content {
             display: block;
         }
+
+        /* Page styling */
+        .home, .page {
+            display: none;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        .home.active, .page.active {
+            display: block;
+        }
+
+        .home .large-image {
+            width: 40%;
+            float: left;
+            margin-left: 10%;
+        }
+
+        .home .medium-image {
+            width: 25%;
+            margin: 0 auto;
+            display: block;
+            margin-top: 5%;
+        }
+
+        .home .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background-color: lightgray;
+            border: 1px solid gray;
+            border-radius: 5px;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+
         .message {
             font-size: 1.5em;
-            margin-bottom: 20px;
-            margin-top: 100px; /* เพิ่มระยะห่างจากเมนู */
-            padding-left: 5cm; /* เพิ่มระยะห่างจากด้านข้าง */
-            padding-right: 5cm; /* เพิ่มระยะห่างจากด้านข้าง */
+            margin: 20px 5cm; /* เพิ่มระยะห่างจากด้านข้าง */
         }
+
         .page-number {
             font-size: 1.2em;
-            color: gray; }
+            color: gray;
+        }
+
+        .hint-menu {
+            font-size: 1.2em;
+            color: gray;
+        }
+
         .icon {
             position: absolute;
             top: 3px;
             left: 3px;
-	    z-index: 2; /* ให้อยู่ทับเมนู */
+            z-index: 2; /* ให้อยู่ทับเมนู */
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="icon">
+    <!-- Icon to go back to home -->
+    <div class="icon" onclick="goHome()">
         <img src="CE 2.png" alt="Icon" width="50" height="50">
     </div>
+
+    <!-- Navigation menu -->
     <div class="menu">
+        <div>
+            <button onclick="goHome()">Home</button>
+        </div>
         <div>
             <button>Hint</button>
             <div class="menu-content">
@@ -95,10 +147,23 @@
             </div>
         </div>
     </div>
-    <div class="message" id="message">.. .... .- ...- . / .-.. .. ...- . -.. / .. -. / - .... . / -. --- .-. - .... . .-. -. / .-. . --. .. --- -.</div>
-    <div class="page-number" id="page-number">หน้า 1</div>
+
+    <!-- Home page -->
+    <div class="home active" id="home">
+        <img src="Q.png" alt="Q" class="large-image">
+        <img src="who.png" alt="Who Am I" class="medium-image">
+        <div class="button" onclick="startHints()">Click เพื่อเริ่มรับคำใบ้</div>
+    </div>
+
+    <!-- Hint pages -->
+    <div class="page" id="page">
+        <div class="message" id="message">.. .... .- ...- . / .-.. .. ...- . -.. / .. -. / - .... . / -. --- .-. - .... . .-. -. / .-. . --. .. --- -.</div>
+        <div class="page-number" id="page-number">คำใบ้ที่ 1</div>
+        <div class="hint-menu">เลือกคำใบ้ถัดไปที่เมนู Hint</div>
+    </div>
 
     <script>
+        /* Variables */
         let currentPage = 0;
         const messages = [
             ".. .... .- ...- . / .-.. .. ...- . -.. / .. -. / - .... . / -. --- .-. - .... . .-. -. / .-. . --. .. --- -.",
@@ -108,10 +173,25 @@
             "ให้นำรหัสในทุกหน้ามาเรียงต่อกัน\nขอให้หาพี่เจอนะพี่รออยู่ อิอิ"
         ];
 
+        /* Function to show a hint page */
         function showPage(page) {
             currentPage = page;
             document.getElementById('message').textContent = messages[currentPage];
-            document.getElementById('page-number').textContent = `หน้า ${currentPage + 1}`;
+            document.getElementById('page-number').textContent = `คำใบ้ที่ ${currentPage + 1}`;
+            document.querySelector('.hint-menu').style.display = 'block';
+            document.getElementById('home').classList.remove('active');
+            document.getElementById('page').classList.add('active');
+        }
+
+        /* Function to start showing hints */
+        function startHints() {
+            showPage(0);
+        }
+
+        /* Function to go back to home page */
+        function goHome() {
+            document.getElementById('home').classList.add('active');
+            document.getElementById('page').classList.remove('active');
         }
     </script>
 </body>
